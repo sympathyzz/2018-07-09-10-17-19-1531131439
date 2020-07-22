@@ -18,7 +18,7 @@ public class Teacher extends Person {
     }
     public String introduce(){
         if(this.klass!=null){
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach Class %s.",this.name,this.age,this.klass);
+            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach Class %s.",this.name,this.age,this.klass.getNumber());
         }else{
             return String.format("My name is %s. I am %s years old. I am a Teacher. I teach No Class.",this.name,this.age);
         }
