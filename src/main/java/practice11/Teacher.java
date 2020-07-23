@@ -2,6 +2,8 @@ package practice11;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Teacher extends Person implements JoinListener{
     private Collection<Klass> classes;
@@ -10,11 +12,13 @@ public class Teacher extends Person implements JoinListener{
     public Teacher(int id,String name, int age,Collection<Klass> classes) {
         super(id,name, age);
         this.classes=classes;
+        classes.forEach(klass -> {
+            klass.joinListeners.add(this);
+        });
     }
 
     public Teacher(int id,String name, int age) {
         super(id,name, age);
-
     }
 
     public Collection<Klass> getClasses() {
@@ -57,13 +61,14 @@ public class Teacher extends Person implements JoinListener{
 
     @Override
     public void update(Student student) {
-        classes.forEach( klass -> {
-            if(klass.getNumber()==student.getKlass().getNumber()&&klass.getLeader().id==student.id){
-                System.out.println(String.format("I am %s. I know %s become Leader of Class %s.",this.name,student.name,klass.getNumber()));
-            }else if(klass.getNumber()==student.getKlass().getNumber()){
-                System.out.println(String.format("I am %s. I know Jerry has joined Class %s.",this.name,student.name,klass.getNumber()));
-            }
-                });
-
+        if(this.classes!=null&&!this.classes.isEmpty()) {
+            classes.forEach(klass -> {
+                if(klass.getLeader()!=null&&klass.getLeader().id == student.id){
+                    System.out.print(String.format("I am %s. I know %s become Leader of Class %s.\n", this.name, student.name, klass.getNumber()));
+                }else{
+                    System.out.print(String.format("I am %s. I know %s has joined Class %s.\n", this.name, student.name, klass.getNumber()));
+                }
+            });
+        }
     }
 }

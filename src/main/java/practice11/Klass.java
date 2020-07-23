@@ -6,7 +6,7 @@ import java.util.List;
 public class Klass {
     private int number;
     private Student leader;
-    private List<JoinListener> joinListeners=new LinkedList<>();
+    protected List<JoinListener> joinListeners=new LinkedList<>();
 
     public Klass(int number) {
         this.number = number;
@@ -29,18 +29,14 @@ public class Klass {
             System.out.print("It is not one of us.\n");
         }else{
             student.getKlass().leader=student;
+            notifyObservers(student);
         }
 
     }
 
     public void appendMember(Student student){
         student.setKlass(this);
-
-        student.getKlass().getNumber()
-        register();
-        joinListeners.forEach(joinListener -> {
-            joinListener.update(student);
-        });
+        notifyObservers(student);
     }
 
     public boolean isIn(Student student){
@@ -50,15 +46,9 @@ public class Klass {
             return false;
         }
     }
-    public void register(Teacher teacher){
-        joinListeners.add(teacher);
-    }
-    public void unregister(Teacher teacher){
-        joinListeners.remove(teacher);
-    }
-    public void notifyObservers(){
+    public void notifyObservers(Student student){
         for (JoinListener joinListener:joinListeners){
-            joinListener.update();
+            joinListener.update(student);
         }
     }
 }
