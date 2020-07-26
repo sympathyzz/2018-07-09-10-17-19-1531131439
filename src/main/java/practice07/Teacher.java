@@ -19,17 +19,17 @@ public class Teacher extends Person {
     }
     public String introduce(){
         if(this.klass!=null){
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach Class %s.",this.name,this.age,this.klass.getNumber());
+            return super.introduce()+String.format(" I am a Teacher. I teach Class %s.",this.klass.getNumber());
         }else{
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach No Class.",this.name,this.age);
+            return super.introduce()+" I am a Teacher. I teach No Class.";
         }
 
     }
     public String introduceWith(Student student){
         if(student.getKlass().getNumber()==this.klass.getNumber()){
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach %s.",this.name,this.age,student.name);
+            return super.introduce()+String.format(" I am a Teacher. I teach %s.",student.getName());
         }else{
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I don't teach %s.",this.name,this.age,student.name);
+            return super.introduce()+String.format(" I am a Teacher. I don't teach %s.",student.getName());
         }
     }
 }
