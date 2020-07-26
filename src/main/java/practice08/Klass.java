@@ -21,6 +21,6 @@ public class Klass {
     }
 
     public void assignLeader(Student student){
-        student.getKlass().leader=student;
+        this.leader=student;
     }
 }
