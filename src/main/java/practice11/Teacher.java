@@ -12,9 +12,12 @@ public class Teacher extends Person implements JoinListener{
     public Teacher(int id,String name, int age,Collection<Klass> classes) {
         super(id,name, age);
         this.classes=classes;
-        classes.forEach(klass -> {
-            klass.joinListeners.add(this);
-        });
+        if(this.classes!=null&&this.classes.size()>0){
+            this.classes.forEach(klass -> classNumberSet.add(klass.getNumber()));
+            classes.forEach(klass -> {
+                klass.getJoinListeners().add(this);
+            });
+        }
     }
 
     public Teacher(int id,String name, int age) {
@@ -27,24 +30,22 @@ public class Teacher extends Person implements JoinListener{
 
     public String introduce(){
         if(this.classes!=null&&!this.classes.isEmpty()){
-            classes.forEach(klass -> classNumberSet.add(klass.getNumber()));
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach Class %s.",this.name,this.age,this.classNumberSet.toString().substring(1,classNumberSet.toString().length()-1));
+            return super.introduce()+String.format(" I am a Teacher. I teach Class %s.",this.classNumberSet.toString().substring(1,classNumberSet.toString().length()-1));
         }else{
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I teach No Class.",this.name,this.age);
+            return super.introduce()+" I am a Teacher. I teach No Class.";
         }
 
     }
 
     public String introduceWith(Student student){
         if(this.classes!=null&&!this.classes.isEmpty()){
-            classes.forEach(klass -> classNumberSet.add(klass.getNumber()));
             if(classNumberSet.contains(student.getKlass().getNumber())){
-                return String.format("My name is %s. I am %s years old. I am a Teacher. I teach %s.",this.name,this.age,student.name);
+                return super.introduce()+String.format(" I am a Teacher. I teach %s.",student.getName());
             }else {
-                return String.format("My name is %s. I am %s years old. I am a Teacher. I don't teach %s.",this.name,this.age,student.name);
+                return super.introduce()+String.format(" I am a Teacher. I don't teach %s.",student.getName());
             }
         }else {
-            return String.format("My name is %s. I am %s years old. I am a Teacher. I don't teach %s.",this.name,this.age,student.name);
+            return super.introduce()+String.format(" I am a Teacher. I don't teach %s.",student.getName());
         }
 
     }
@@ -61,14 +62,13 @@ public class Teacher extends Person implements JoinListener{
 
     @Override
     public void update(Student student) {
-        if(this.classes!=null&&!this.classes.isEmpty()) {
             classes.forEach(klass -> {
-                if(klass.getLeader()!=null&&klass.getLeader().id == student.id){
-                    System.out.print(String.format("I am %s. I know %s become Leader of Class %s.\n", this.name, student.name, klass.getNumber()));
+                if(klass.getLeader()!=null&&klass.getLeader().getId() == student.getId()){
+                    System.out.print(String.format("I am %s. I know %s become Leader of Class %s.\n", this.name, student.getName(), klass.getNumber()));
                 }else{
-                    System.out.print(String.format("I am %s. I know %s has joined Class %s.\n", this.name, student.name, klass.getNumber()));
+                    System.out.print(String.format("I am %s. I know %s has joined Class %s.\n", this.name, student.getName(), klass.getNumber()));
                 }
             });
-        }
+
     }
 }

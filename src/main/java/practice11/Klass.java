@@ -8,6 +8,10 @@ public class Klass {
     private Student leader;
     protected List<JoinListener> joinListeners=new LinkedList<>();
 
+    public List<JoinListener> getJoinListeners() {
+        return joinListeners;
+    }
+
     public Klass(int number) {
         this.number = number;
     }
@@ -25,10 +29,10 @@ public class Klass {
     }
 
     public void assignLeader(Student student){
-        if(student.getKlass().number!=this.number){
+        if(student.getKlass().getNumber()!=this.number){
             System.out.print("It is not one of us.\n");
         }else{
-            student.getKlass().leader=student;
+            this.leader=student;
             notifyObservers(student);
         }
 
